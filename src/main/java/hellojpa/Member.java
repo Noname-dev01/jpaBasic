@@ -1,29 +1,32 @@
 package hellojpa;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Member {
 
-    @Id
+    @Id //PK 매핑
     private Long id;
-    private String name;
-    private int age;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "name") //컬럼명 지정
+    private String username;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private Integer age;
 
-    public String getName() {
-        return name;
-    }
+    @Enumerated(EnumType.STRING) //Enum 타입을 쓰려면 이 애노테이션을 쓰면 된다.
+    private RoleType roleType;
 
-    public void setName(String name) {
-        this.name = name;
+    @Temporal(TemporalType.TIMESTAMP) //DATE=날짜,TIME=시간,TIMESTAMP=날짜,시간 둘다 포함된것
+    private Date createDate;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModifiedDate;
+
+    @Lob //varchar를 넘어서는 큰 컨테츠를 넣고싶으면 @Lob
+    private String description;
+
+    public Member() {
+
     }
 }
