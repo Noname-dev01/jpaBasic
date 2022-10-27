@@ -18,7 +18,7 @@ public class JpaMain {
             //비영속 상태
             Member member = new Member();
             member.setId(100L);
-            member.setName("HelloJPA");
+            member.setUsername("HelloJPA");
             //persist하면서 영속 상태되고 DB에 저장되는 상태는 아니다.
             em.persist(member);
 
