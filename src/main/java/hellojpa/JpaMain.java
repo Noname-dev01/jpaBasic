@@ -15,12 +15,22 @@ public class JpaMain {
         tx.begin();
 
         try {
-            //비영속 상태
             Member member = new Member();
-            member.setId(100L);
-            member.setUsername("HelloJPA");
-            //persist하면서 영속 상태되고 DB에 저장되는 상태는 아니다.
+            member.setUsername("member1");
+
             em.persist(member);
+
+            Team team = new Team();
+            team.setName("teamA");
+            team.getMembers().add(member);
+
+            em.persist(team);
+            //비영속 상태
+//            Member member = new Member();
+//            member.setId(100L);
+//            member.setUsername("HelloJPA");
+//            //persist하면서 영속 상태되고 DB에 저장되는 상태는 아니다.
+//            em.persist(member);
 
 
             //회원 등록

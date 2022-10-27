@@ -14,9 +14,6 @@ public class Member {
     @Column(name = "USERNAME") //컬럼명 지정
     private String username;
 
-    @ManyToOne
-    @JoinColumn(name = "TEAM_ID")
-    private Team team;
 
     @Enumerated(EnumType.STRING) //Enum 타입을 쓰려면 이 애노테이션을 쓰면 된다.
     private RoleType roleType;
@@ -40,12 +37,6 @@ public class Member {
     }
     public void setUsername(String username) {
         this.username = username;
-    }
-    public Team getTeam() {
-        return team;
-    }
-    public void setTeam(Team team) {
-        this.team = team;
     }
     public RoleType getRoleType() {
         return roleType;
