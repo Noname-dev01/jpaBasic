@@ -1,9 +1,12 @@
 package hellojpa;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import java.time.LocalDateTime;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -15,21 +18,46 @@ public class JpaMain {
         tx.begin();
 
         try {
-            //상속관계 매핑
-            Movie movie = new Movie();
-            movie.setDirector("aaaa");
-            movie.setActor("bbbb");
-            movie.setName("트랜스포머");
-            movie.setPrice(10000);
-
-            em.persist(movie);
-
+            /** 프록시 */
+            Member member = new Member();
+            member.setUsername("member1");
+            em.persist(member);
+            
             em.flush();
             em.clear();
 
-            Movie findmovie = em.find(Movie.class, movie.getId());
-            System.out.println("findmovie = " + findmovie);
+            Member refMember = em.getReference(Member.class, member.getId());
+            System.out.println("refMember.getClass() = " + refMember.getClass()); //proxy
+            Hibernate.initialize(refMember); //강제 초기화
 
+            /** Mapped Superclass - 매핑 정보 상속 */
+//            Member member = new Member();
+//            member.setCreateBy("kim");
+//            member.setCreatedDate(LocalDateTime.now());
+//
+//            em.persist(member);
+//
+//            em.flush();
+//            em.clear();
+            //조회 검색 불가(em.find(BaseEntity) 불가)
+            /**
+             * 상속관계 매핑
+             */
+//            Movie movie = new Movie();
+//            movie.setDirector("aaaa");
+//            movie.setActor("bbbb");
+//            movie.setName("트랜스포머");
+//            movie.setPrice(10000);
+//
+//            em.persist(movie);
+//
+//            em.flush();
+//            em.clear();
+//
+//            Movie findmovie = em.find(Movie.class, movie.getId());
+//            System.out.println("findmovie = " + findmovie);
+
+            /** ??? */
 //            Member member = new Member();
 //            member.setUsername("member1");
 //
@@ -48,17 +76,17 @@ public class JpaMain {
 //            em.persist(member);
 
 
-            //회원 등록
+            /** 회원 등록 */
 //            Member member = new Member();
 //            member.setId(1L);
 //            member.setName("HelloA");
 //            em.persist(member);
-            //회원 조회
+            /** 회원 조회 */
 //            Member findMember = em.find(Member.class, 1L);
-            //회원 삭제
+            /** 회원 삭제 */
 //            Member findMember = em.find(Member.class, 1L);
 //            em.remove(findMember);
-            //회원 수정
+            /** 회원 수정 */
 //            Member findMember = em.find(Member.class, 1L);
 //            findMember.setName("HelloJPA");
 

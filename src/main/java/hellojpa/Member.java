@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 @Entity
-public class Member {
+public class Member extends BaseEntity{
 
     @Id //PK 매핑
     @GeneratedValue
@@ -21,25 +21,29 @@ public class Member {
     @Enumerated(EnumType.STRING) //Enum 타입을 쓰려면 이 애노테이션을 쓰면 된다.
     private RoleType roleType;
 
-    @OneToOne
-    @JoinColumn(name = "LOCKER_ID")
-    private Locker locker;
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
+    private Team team;
+
+//    @OneToOne
+//    @JoinColumn(name = "LOCKER_ID")
+//    private Locker locker;
 
 //@ManyToMany는 실무에서 사용불가
 //    @ManyToMany
 //    @JoinTable(name = "MEMBER_PRODUCT")
 //    private List<Product> products = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
-    private List<MemberProduct> memberProducts = new ArrayList<>();
-    @Temporal(TemporalType.TIMESTAMP) //DATE=날짜,TIME=시간,TIMESTAMP=날짜,시간 둘다 포함된것
-    private Date createDate;
+//    @OneToMany(mappedBy = "member")
+//    private List<MemberProduct> memberProducts = new ArrayList<>();
+//    @Temporal(TemporalType.TIMESTAMP) //DATE=날짜,TIME=시간,TIMESTAMP=날짜,시간 둘다 포함된것
+//    private Date createDate;
+//
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date lastModifiedDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date lastModifiedDate;
-
-    @Lob //varchar를 넘어서는 큰 컨테츠를 넣고싶으면 @Lob
-    private String description;
+//    @Lob //varchar를 넘어서는 큰 컨테츠를 넣고싶으면 @Lob
+//    private String description;
     public Long getId() {
         return id;
     }
@@ -58,24 +62,15 @@ public class Member {
     public void setRoleType(RoleType roleType) {
         this.roleType = roleType;
     }
-    public Date getCreateDate() {
-        return createDate;
+
+    public Team getTeam() {
+        return team;
     }
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
-    public String getDescription() {
-        return description;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
+
     public Member() {
 
     }
