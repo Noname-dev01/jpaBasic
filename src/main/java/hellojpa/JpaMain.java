@@ -18,15 +18,22 @@ public class JpaMain {
         tx.begin();
 
         try {
+            /** 임베디드 타입 */
+            Member member = new Member();
+            member.setUsername("hello");
+            member.setHomeAddress(new Address("city","street","100"));
+            member.setWorkPeriod(new Period());
+
+            em.persist(member);
             /** 영속성 전이(CASECADE)와 고아 객체 */
-            Child child1 = new Child();
-            Child child2 = new Child();
-
-            Parent parent = new Parent();
-            parent.addChild(child1);
-            parent.addChild(child2);
-
-            em.persist(parent);
+//            Child child1 = new Child();
+//            Child child2 = new Child();
+//
+//            Parent parent = new Parent();
+//            parent.addChild(child1);
+//            parent.addChild(child2);
+//
+//            em.persist(parent);
 
             /** 즉시 로딩과 지연 로딩 */
 //            Team team = new Team();
