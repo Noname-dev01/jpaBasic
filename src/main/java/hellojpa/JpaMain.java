@@ -7,6 +7,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
 
 public class JpaMain {
     public static void main(String[] args) {
@@ -18,15 +20,49 @@ public class JpaMain {
         tx.begin();
 
         try {
+            /** 값 타입 컬렉션 */
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setHomeAddress(new Address("city","street","10000"));
+            member.getFavoriteFoods().add("chicken");
+            member.getFavoriteFoods().add("rice");
+            member.getFavoriteFoods().add("pizza");
+
+            member.getAddressHistory().add(new Address("old1","Street","10000"));
+            member.getAddressHistory().add(new Address("old2","Street","10000"));
+
+            em.persist(member);
+            em.flush();
+            em.clear();
+            System.out.println("=============START=============");
+            //값 타입 조회 예제
+//            Member findMember = em.find(Member.class, member.getId());
+//            List<Address> addressHistory = findMember.getAddressHistory();
+//            for (Address address:addressHistory) {
+//                System.out.println("address.getCity() = " + address.getCity());
+//            }
+//            Set<String> favoriteFoods = findMember.getFavoriteFoods();
+//            for (String favoriteFood : favoriteFoods) {
+//                System.out.println("favoriteFood = " + favoriteFood);
+//            }
+            //값 타입 수정 예제
+            Member findMember = em.find(Member.class, member.getId());
+
+            //homeCity-> newCity
+            Address a = findMember.getHomeAddress();
+            findMember.setHomeAddress(new Address("newCity",a.getStreet(),a.getZipcode()));
+
+            //chicken -> koreanFood
+            findMember.getFavoriteFoods().remove("chicken");
+            findMember.getFavoriteFoods().add("koreanFood");
+
             /** 값 타입과 불변 객체 */
-            Address address = new Address("city", "street", "100");
-
-            Member member1 = new Member();
-            member1.setUsername("member1");
-            member1.setHomeAddress(address);
-            em.persist(member1);
-
-
+//            Address address = new Address("city", "street", "100");
+//
+//            Member member1 = new Member();
+//            member1.setUsername("member1");
+//            member1.setHomeAddress(address);
+//            em.persist(member1);
 
             /** 임베디드 타입 */
 //            Member member = new Member();

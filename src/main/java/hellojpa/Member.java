@@ -2,9 +2,7 @@ package hellojpa;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 
 @Entity
@@ -17,26 +15,37 @@ public class Member{
 
     @Column(name = "USERNAME") //컬럼명 지정
     private String username;
+    @Embedded
+    private Address homeAddress;
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
+        @JoinColumn(name = "MEMBER_ID"))
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
+    @ElementCollection
+    @CollectionTable(name = "ADDRESS", joinColumns =
+    @JoinColumn(name = "MEMBER_ID"))
+    private List<Address> addressHistory = new ArrayList<>();
 
     //Period
 //    private LocalDateTime startDate;
 //    private LocalDateTime endDate;
-    @Embedded
-    private Period workPeriod;
+//    @Embedded
+//    private Period workPeriod;
 
     //Address
 //    private String city;
 //    private String street;
 //    private String zipcode;
-    @Embedded
-    private Address homeAddress;
-
-    @Embedded
-    @AttributeOverrides({@AttributeOverride(name = "city",column = @Column(name = "WORK_CITY")),
-            @AttributeOverride(name = "street",column = @Column(name = "WORK_STREET")),
-            @AttributeOverride(name = "zipcode",column = @Column(name = "WORK_ZIPCODE"))
-    })
-    private Address workAddress;
+//    @Embedded
+//    private Address homeAddress;
+//
+//    @Embedded
+//    @AttributeOverrides({@AttributeOverride(name = "city",column = @Column(name = "WORK_CITY")),
+//            @AttributeOverride(name = "street",column = @Column(name = "WORK_STREET")),
+//            @AttributeOverride(name = "zipcode",column = @Column(name = "WORK_ZIPCODE"))
+//    })
+//    private Address workAddress;
 
 //    @Enumerated(EnumType.STRING) //Enum 타입을 쓰려면 이 애노테이션을 쓰면 된다.
 //    private RoleType roleType;
@@ -86,13 +95,6 @@ public class Member{
         this.username = username;
     }
 
-    public Period getWorkPeriod() {
-        return workPeriod;
-    }
-
-    public void setWorkPeriod(Period workPeriod) {
-        this.workPeriod = workPeriod;
-    }
 
     public Address getHomeAddress() {
         return homeAddress;
@@ -100,5 +102,21 @@ public class Member{
 
     public void setHomeAddress(Address homeAddress) {
         this.homeAddress = homeAddress;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
+    }
+
+    public List<Address> getAddressHistory() {
+        return addressHistory;
+    }
+
+    public void setAddressHistory(List<Address> addressHistory) {
+        this.addressHistory = addressHistory;
     }
 }
