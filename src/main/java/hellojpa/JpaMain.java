@@ -18,17 +18,41 @@ public class JpaMain {
         tx.begin();
 
         try {
-            /** 프록시 */
-            Member member = new Member();
-            member.setUsername("member1");
-            em.persist(member);
-            
-            em.flush();
-            em.clear();
+            /** 영속성 전이(CASECADE)와 고아 객체 */
+            Child child1 = new Child();
+            Child child2 = new Child();
 
-            Member refMember = em.getReference(Member.class, member.getId());
-            System.out.println("refMember.getClass() = " + refMember.getClass()); //proxy
-            Hibernate.initialize(refMember); //강제 초기화
+            Parent parent = new Parent();
+            parent.addChild(child1);
+            parent.addChild(child2);
+
+            em.persist(parent);
+
+            /** 즉시 로딩과 지연 로딩 */
+//            Team team = new Team();
+//            team.setName("team");
+//            em.persist(team);
+//
+//            Member member = new Member();
+//            member.setUsername("member");
+//            member.setTeam(team);
+//            em.persist(member);
+//            em.flush();
+//            em.clear();
+//
+//            Member m = em.find(Member.class, member);
+//            System.out.println("m.getTeam().getClass() = " + m.getTeam().getClass());
+            /** 프록시 */
+//            Member member = new Member();
+//            member.setUsername("member1");
+//            em.persist(member);
+//
+//            em.flush();
+//            em.clear();
+//
+//            Member refMember = em.getReference(Member.class, member.getId());
+//            System.out.println("refMember.getClass() = " + refMember.getClass()); //proxy
+//            Hibernate.initialize(refMember); //강제 초기화
 
             /** Mapped Superclass - 매핑 정보 상속 */
 //            Member member = new Member();

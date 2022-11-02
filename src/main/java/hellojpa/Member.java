@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 @Entity
-public class Member extends BaseEntity{
+public class Member{
 
     @Id //PK 매핑
     @GeneratedValue
-    @Column(name = "MEMBER_ID")
     private Long id;
 
     @Column(name = "USERNAME") //컬럼명 지정
@@ -21,8 +20,12 @@ public class Member extends BaseEntity{
     @Enumerated(EnumType.STRING) //Enum 타입을 쓰려면 이 애노테이션을 쓰면 된다.
     private RoleType roleType;
 
-    @ManyToOne
-    @JoinColumn(name = "TEAM_ID", insertable = false, updatable = false)
+    /**
+     * fetch = FetchType.Lazy --> 지연 로딩
+     * fetch = FetchType.EAGER --> 즉시 로딩 (실무에서는 가급적 사용하지 않고 지연로딩을 사용해야한다.)
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TEAM_ID")
     private Team team;
 
 //    @OneToOne
