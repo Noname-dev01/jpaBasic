@@ -18,13 +18,23 @@ public class JpaMain {
         tx.begin();
 
         try {
-            /** 임베디드 타입 */
-            Member member = new Member();
-            member.setUsername("hello");
-            member.setHomeAddress(new Address("city","street","100"));
-            member.setWorkPeriod(new Period());
+            /** 값 타입과 불변 객체 */
+            Address address = new Address("city", "street", "100");
 
-            em.persist(member);
+            Member member1 = new Member();
+            member1.setUsername("member1");
+            member1.setHomeAddress(address);
+            em.persist(member1);
+
+
+
+            /** 임베디드 타입 */
+//            Member member = new Member();
+//            member.setUsername("hello");
+//            member.setHomeAddress(new Address("city","street","100"));
+//            member.setWorkPeriod(new Period());
+//
+//            em.persist(member);
             /** 영속성 전이(CASECADE)와 고아 객체 */
 //            Child child1 = new Child();
 //            Child child2 = new Child();
